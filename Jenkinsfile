@@ -23,7 +23,7 @@ pipeline {
                     // Navigate to the directory containing the Dockerfile
                     dir('emailApp') {
                         // Build the Docker image
-                        sh 'docker build -t nedumpythonapp:5 .'
+                        sh 'docker build -t nedumpythonapp:$BUILD_NUMBER .'
                 }
             }
         }}
