@@ -20,7 +20,7 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    sh "docker build -t nedumpythonapp:$IMAGE_NAME ."
+                    sh "docker build -t nedumpythonapp:$BUILD_NUMBER ."
                 }
             }
         }
