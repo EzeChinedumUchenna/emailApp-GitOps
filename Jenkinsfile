@@ -24,9 +24,10 @@ pipeline {
                     dir('emailApp') {
                         // Build the Docker image
                         sh 'docker build -t nedumpythonapp:$BUILD_NUMBER .'
+                  }
                 }
             }
-        }}
+        }
         
     } 
 }
