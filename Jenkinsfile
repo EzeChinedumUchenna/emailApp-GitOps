@@ -20,10 +20,13 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    sh "docker build -t nedumpythonapp:$BUILD_NUMBER ."
+                    // Navigate to the directory containing the Dockerfile
+                    dir('emailApp') {
+                        // Build the Docker image
+                        sh 'docker build -t nedumpythonapp:5 .'
                 }
             }
-        }
+        }}
         
     } 
 }
