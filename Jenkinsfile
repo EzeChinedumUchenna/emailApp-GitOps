@@ -25,7 +25,7 @@ pipeline {
         }
 
 
-        stage("Build") {
+        stage("image") {
             steps {
                 script {
                     // Navigate to the directory containing the Dockerfile
