@@ -31,7 +31,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv('SonarQube_Server') {
+                    withSonarQubeEnv('credentialsId: OpeEmailAppCredential') {
                         sh 'sonar-scanner'
                     }
                 }
