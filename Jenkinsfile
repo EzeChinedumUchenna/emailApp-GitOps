@@ -17,14 +17,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                // Your build steps go here
-                sh 'python app.py build'
-            }
-        }
-
-
         stage("image") {
             steps {
                 script {
