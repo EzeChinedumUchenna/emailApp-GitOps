@@ -17,6 +17,14 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                // Your build steps go here
+                sh 'python app.py build'
+            }
+        }
+
+
         stage("Build") {
             steps {
                 script {
@@ -28,6 +36,14 @@ pipeline {
                 }
             }
         }
-        
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube_Server') {
+                        sh 'sonar-scanner'
+                    }
+                }
+            }
+        }
     } 
 }
