@@ -17,6 +17,16 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                script {
+                    // Install dependencies and run tests
+                    sh 'pip install -r requirements.txt'
+                }
+            }
+        }
+
+
         stage("image") {
             steps {
                 script {
@@ -31,7 +41,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnv(credentialsId: 'OpeEmailAppCredential') {
+                    withSonarQubeEnv('sonarqube-server') {
                         sh 'sonar-scanner'
                     }
                 }
