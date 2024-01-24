@@ -17,16 +17,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                script {
-                    // Install dependencies and run tests
-                    sh 'pip install -r requirements.txt'
-                }
-            }
-        }
-
-
         stage("image") {
             steps {
                 script {
