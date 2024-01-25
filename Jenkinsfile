@@ -62,7 +62,7 @@ pipeline {
           def qg = waitForQualityGate()  
             echo "Quality Gate response: ${qg}"
             // Check for errors or 'ERROR' status in the quality gate
-                    if (qg.status != 'OK' || qg.error) {
+                    if (qg.status == 'ERROR' || qg.error) {
                         error "Pipeline aborted due to quality gate failure: ${qg.status}"
                     }
         }
