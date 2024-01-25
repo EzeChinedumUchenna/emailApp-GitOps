@@ -56,7 +56,7 @@ pipeline {
     stage('SonarQube Quality Gate') {
       steps {
         script {
-          waitForQualityGate abortPipeline: false, credentialsId: 'OpeEmailAppCredential'
+          waitForQualityGate abortPipeline: true, credentialsId: 'OpeEmailAppCredential'
 
         
           def qg = waitForQualityGate()  
