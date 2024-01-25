@@ -65,9 +65,9 @@ pipeline {
                     if (qg.status == 'ERROR' || qg.error) {
                         error "Pipeline aborted due to quality gate failure: ${qg.status}"
                     }
-            } catch (Exception e) {
+             catch (Exception e) {
                 error "An error occurred: ${e.message}"
-        }}
+        }
     }
 }
     }
