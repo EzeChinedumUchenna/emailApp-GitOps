@@ -7,6 +7,7 @@ pipeline {
         SONARQUBE_URL = 'http://172.210.1.148/:9000'
         SONARQUBE_TOKEN = credentials('OpeEmailAppCredential')
         SONARSCANNER_HOME = tool 'sonarqube-scanner' // Tool name configured in Jenkins Global Tool Configuration
+        MAX_ALLOWED_BUGS = 1
     }
  
     stages {
@@ -59,8 +60,9 @@ pipeline {
                     withSonarQubeEnv('sonarqube-server') {
                         def analysisSummary = waitForQualityGate() // Wait for the quality gate check to complete
 
-                        // Check if the number of new code smells is greater than 3
-                        if (analysisSummary.status != 'OK' || analysisSummary.conditions.find { it.metricKey == 'Bugs' }.errorThreshold < 3) {
+                        // Check if the number of new bugs is greater than the allowed limit
+                        def newBugsCount = analysisSummary.conditions.find { it.metricKey == 'new_bugs' }.actualValue
+                        if (analysisSummary.status != 'OK' || newBugsCount > MAX_ALLOWED_BUGS) {
                             error "Quality gate did not pass. Check SonarQube dashboard for details."
                         }
                     }
