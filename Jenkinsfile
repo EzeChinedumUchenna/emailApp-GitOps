@@ -52,5 +52,19 @@ pipeline {
                 }
             }
         }
+        stage('SonarQube Quality Gate') {
+            steps {
+                script {
+                    // Use the configured SonarScanner installation
+                    withSonarQubeEnv('sonarqube-server') {
+                        def analysisSummary = waitForQualityGate() // Wait for the quality gate check to complete
+
+                        // Check if the number of new code smells is greater than 3
+                        if (analysisSummary.status != 'OK' || analysisSummary.conditions.find { it.metricKey == 'Bugs' }.errorThreshold < 3) {
+                            error "Quality gate did not pass. Check SonarQube dashboard for details."
+                        }
+                    }
+                }
+            }
     } 
 }
