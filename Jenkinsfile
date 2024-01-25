@@ -57,6 +57,10 @@ pipeline {
       steps {
         script {
           waitForQualityGate abortPipeline: false, credentialsId: 'OpeEmailAppCredential'
+          def qg = waitForQualityGate()  
+                    if (qg.status != 'OK' || qg.error) {
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}. Error: ${qg.error}"
+                    }
         }
     }
 }
