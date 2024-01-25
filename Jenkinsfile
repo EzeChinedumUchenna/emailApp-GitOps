@@ -55,8 +55,7 @@ pipeline {
         }
        stage('SonarQube Quality Gate') {
     steps {
-        script {
-            // Use the configured SonarScanner installation
+        scri// Use the configured SonarScanner installation
             withSonarQubeEnv('sonarqube-server') {
                 def analysisSummary = waitForQualityGate() // Wait for the quality gate check to complete
 
@@ -65,17 +64,8 @@ pipeline {
                     error "Quality gate did not pass. Check SonarQube dashboard for details."
                 }
 
-                // Retrieve metrics
-                def metrics = script {
-                    def qg = waitForQualityGate()
-                    def ws = qg.getAnalysis().getMetrics()
-                    def result = [:]
-                    ws.each { result[it.key] = it.value?.toString() }
-                    return result
-                }
-
-                // Check if the number of new bugs is greater than 3
-                def newBugsCount = metrics['new_bugs'] as Integer
+                // Retrieve metrics directly from the analysis summary
+                def newBugsCount = analysisSummary.conditions.find { it.metricKey == 'new_bugs' }.actualValue
                 if (newBugsCount > 3) {
                     error "Quality gate did not pass. Too many new bugs detected: ${newBugsCount}"
                 }
