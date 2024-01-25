@@ -53,21 +53,35 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Quality Gate') {
-            steps {
-                script {
-                    // Use the configured SonarScanner installation
-                    withSonarQubeEnv('sonarqube-server') {
-                        def analysisSummary = waitForQualityGate() // Wait for the quality gate check to complete
+       stage('SonarQube Quality Gate') {
+    steps {
+        script {
+            // Use the configured SonarScanner installation
+            withSonarQubeEnv('sonarqube-server') {
+                def analysisSummary = waitForQualityGate() // Wait for the quality gate check to complete
 
-                        // Check if the number of new bugs is greater than the allowed limit
-                        def newBugsCount = analysisSummary.conditions.find { it.metricKey == 'new_bugs' }.actualValue
-                        if (analysisSummary.status != 'OK' || newBugsCount > MAX_ALLOWED_BUGS) {
-                            error "Quality gate did not pass. Check SonarQube dashboard for details."
-                        }
-                    }
+                // Check if the quality gate passed
+                if (analysisSummary.status != 'OK') {
+                    error "Quality gate did not pass. Check SonarQube dashboard for details."
+                }
+
+                // Retrieve metrics
+                def metrics = script {
+                    def qg = waitForQualityGate()
+                    def ws = qg.getAnalysis().getMetrics()
+                    def result = [:]
+                    ws.each { result[it.key] = it.value?.toString() }
+                    return result
+                }
+
+                // Check if the number of new bugs is greater than 3
+                def newBugsCount = metrics['new_bugs'] as Integer
+                if (newBugsCount > 3) {
+                    error "Quality gate did not pass. Too many new bugs detected: ${newBugsCount}"
                 }
             }
-       } 
+        }
+    }
+}
    }
 }
