@@ -42,7 +42,8 @@ pipeline {
                     withSonarQubeEnv('sonarqube-server') {
                         sh """
                             ${SONARSCANNER_HOME}/bin/sonar-scanner \
-                            -Dsonar.projectName=email-app-project \
+                            -Dsonar.projectKey=your_project_key \
+                            -Dsonar.projectName=YourProjectName \
                             -Dsonar.projectVersion=1.0 \
                             -Dsonar.sources=. \
                             -Dsonar.python.coverage.reportPaths=coverage.xml \
