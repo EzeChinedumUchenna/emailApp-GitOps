@@ -42,8 +42,7 @@ pipeline {
                     withSonarQubeEnv('sonarqube-server') {
                         sh """
                             ${SONARSCANNER_HOME}/bin/sonar-scanner \
-                            -Dsonar.projectKey=your_project_key \
-                            -Dsonar.projectName=YourProjectName \
+                            -Dsonar.projectName=email-app-project \
                             -Dsonar.projectVersion=1.0 \
                             -Dsonar.sources=. \
                             -Dsonar.python.coverage.reportPaths=coverage.xml \
@@ -55,7 +54,8 @@ pipeline {
         }
        stage('SonarQube Quality Gate') {
     steps {
-        scri// Use the configured SonarScanner installation
+        script {
+            // Use the configured SonarScanner installation
             withSonarQubeEnv('sonarqube-server') {
                 def analysisSummary = waitForQualityGate() // Wait for the quality gate check to complete
 
@@ -73,5 +73,5 @@ pipeline {
         }
     }
 }
-
+    }
 }
