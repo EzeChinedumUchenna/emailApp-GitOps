@@ -2,6 +2,12 @@
 
 pipeline {
     agent any
+
+    environment {
+        SONARQUBE_URL = 'http://172.210.1.148/:9000'
+        SONARQUBE_TOKEN = credentials('OpeEmailAppCredential')
+        SONARSCANNER_HOME = tool 'sonarqube-scanner' // Tool name configured in Jenkins Global Tool Configuration
+    }
  
     stages {
 
@@ -28,11 +34,20 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Analysis') {
+        stage('SonarQube Scan') {
             steps {
                 script {
+                    // Use the configured SonarScanner installation
                     withSonarQubeEnv('sonarqube-server') {
-                        sh 'sonar-scanner'
+                        sh """
+                            ${SONARSCANNER_HOME}/bin/sonar-scanner \
+                            -Dsonar.projectKey=your_project_key \
+                            -Dsonar.projectName=YourProjectName \
+                            -Dsonar.projectVersion=1.0 \
+                            -Dsonar.sources=. \
+                            -Dsonar.python.coverage.reportPaths=coverage.xml \
+                            -Dsonar.python.xunit.reportPath=test-reports.xml
+                        """
                     }
                 }
             }
