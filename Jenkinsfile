@@ -67,7 +67,7 @@ pipeline {
                     }
             } catch (Exception e) {
                 error "An error occurred: ${e.message}"
-        }
+        }}
     }
 }
     }
