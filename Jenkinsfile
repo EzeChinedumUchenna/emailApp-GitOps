@@ -56,22 +56,9 @@ pipeline {
     stage('SonarQube Quality Gate') {
       steps {
         script {
-          waitForQualityGate abortPipeline: true, credentialsId: 'OpeEmailAppCredential'
-           // def qg = waitForQualityGate()
-             //       def qualityGate = new SonarQubeQualityGate(qg, 'Quality Gate')
-                    
-               //     if (qualityGate.getStatus().equals(SonarQubeQualityGate.Status.OK)) {
-                 //       echo 'Quality gate passed! Proceeding to the next stage.'
-                   // } else {
-                     //   error "Quality gate failed: ${qualityGate.getStatus()} - ${qualityGate.getStatusDescription()}"
-                    //}
-        
-          //def qg = waitForQualityGate()  
-           // echo "Quality Gate response: ${qg}"
-            // Check for errors or 'ERROR' status in the quality gate
-             //       if (qg.status != 'OK' || qg.error) {
-               //         error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                 //   }
+         timeout(time: 3, unit:'MINUTES') {
+             waitForQualityGate abortPipeline: true, credentialsId: 'OpeEmailAppCredential'
+         }:
         }
     }
 }
