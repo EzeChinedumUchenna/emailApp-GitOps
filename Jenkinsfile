@@ -58,9 +58,31 @@ pipeline {
         script {
          timeout(time: 3, unit:'MINUTES') {
              waitForQualityGate abortPipeline: true, credentialsId: 'OpeEmailAppCredential'
-         }
+          }
+        }
+     }
+   }
+    stage('Push to ACR') {
+            steps {
+                // Push the Docker image to Azure Container Registry
+                script {
+                    docker.withRegistry(ACR_SERVER, ACR_USERNAME, ACR_PASSWORD) {
+                        customImage.push()
+                    }
+                }
+            }
+        }
+        stage('Deploy to Azure') {
+            steps {
+                // Add your deployment steps here
+                // This could include updating a Kubernetes deployment, triggering a release, etc.
+                // Example: deploy to Azure Kubernetes Service (AKS)
+                script {
+                    // Use Azure CLI or Kubernetes CLI to update deployment
+                    sh "az aks update -n your-aks-cluster -g your-resource-group --image ${ACR_SERVER}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
+                }
+            }
         }
     }
 }
-    }
 }
