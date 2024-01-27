@@ -85,5 +85,13 @@ pipeline {
             //}
         //}
     }
+    stage('Trivy Scan') {
+            steps {
+                script {
+                    // Run Trivy scan on the Docker image
+                    sh 'trivy --exit-code 1 --severity HIGH,MEDIUM nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER'
+                }
+            }
+        }
 }
 }
