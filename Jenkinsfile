@@ -88,20 +88,12 @@ pipeline {
     stage('Trivy Scan') {
             steps {
                 script {
-                    // Run Trivy scan on the Docker image
-                    def trivyScanOutput = sh(script: 'trivy image --format json --severity HIGH,MEDIUM nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER', returnStdout: true).trim()
-                    // Parse Trivy output to check for high-severity vulnerabilities
-                    //def vulnerabilities = trivyScanOutput.readJSON().Vulnerabilities
-                    def vulnerabilities = readJSON text: trivyScanOutput
-                    def highSeverityVulnerabilities = vulnerabilities.findAll { it.Severity == 'HIGH' }
-
-                    // Fail the build or notify stakeholders if high-severity vulnerabilities are found
-                    if (highSeverityVulnerabilities) {
-                        currentBuild.result = 'FAILURE'
-                        error("High-severity vulnerabilities found. Build failed.")
-                    } else {
-                        echo "No high-severity vulnerabilities found. Build continues."
-                    }
+                    script {
+                        def trivyOutput = sh(script: 'trivy --severity HIGH --exit-code 1 nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER', returnStdout: true)
+                        echo "Trivy scan results: ${trivyOutput}"
+                        // In the above code snippet, the trivy command scans the container image for vulnerabilities with High severity and returns an exit code of 1 if any are found. 
+                        // The --exit-code 1 option causes the pipeline process to stop when High severity vulnerabilities are detected. Replace <IMAGE_NAME> with the name of your container image.
+        }
                 }
             }
         }
