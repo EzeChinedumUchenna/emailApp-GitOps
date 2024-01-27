@@ -87,15 +87,21 @@ pipeline {
     }
     stage('Trivy Scan') {
             steps {
-                script {
                     script {
                         def trivyOutput = sh(script: 'trivy image --severity HIGH --exit-code 1 nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER', returnStdout: true)
                         echo "Trivy scan results: ${trivyOutput}"
                         // In the above code snippet, the trivy command scans the container image for vulnerabilities with High severity and returns an exit code of 1 if any are found. 
                         // The --exit-code 1 option causes the pipeline process to stop when High severity vulnerabilities are detected. Replace <IMAGE_NAME> with the name of your container image.
-        }
+                    }
                 }
             }
-        }
+   stage('Clean Up Artifact') {
+            steps {
+                    script {
+                        sh 'docker rmi nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER'
+                    }
+            }
+   }
+        
 }
 }
