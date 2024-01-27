@@ -91,7 +91,8 @@ pipeline {
                     // Run Trivy scan on the Docker image
                     def trivyScanOutput = sh(script: 'trivy image --format json --severity HIGH,MEDIUM nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER', returnStdout: true).trim()
                     // Parse Trivy output to check for high-severity vulnerabilities
-                    def highSeverityVulnerabilities = trivyScanOutput.readJSON().Vulnerabilities.findAll { it.Severity == 'HIGH' }
+                    def vulnerabilities = trivyScanOutput.readJSON().Vulnerabilities
+                    def highSeverityVulnerabilities = vulnerabilities.findAll { it.Severity == 'HIGH' }
 
                     // Fail the build or notify stakeholders if high-severity vulnerabilities are found
                     if (highSeverityVulnerabilities) {
