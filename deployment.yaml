@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: email-app
-          image: nedumacr.azurecr.io/nedumpythonapp:80
+          image: 'nedumacr.azurecr.io/nedumpythonapp:79'
           resources:
             limits:
               memory: "256Mi"
