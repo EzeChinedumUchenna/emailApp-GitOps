@@ -23,7 +23,7 @@
 FROM python:3.8
 
 # Install python and pip
-RUN apk add --update py2-pip
+
 RUN pip install --upgrade Flask
 RUN pip install --upgrade Jinja2
   
