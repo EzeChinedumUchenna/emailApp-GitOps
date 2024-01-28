@@ -1,28 +1,62 @@
-from flask import Flask, render_template
-import random
+from flask import Flask, render_template, request
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 app = Flask(__name__)
 
-# list of cat images
-images = [
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr05/15/9/anigif_enhanced-buzz-26388-1381844103-11.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr01/15/9/anigif_enhanced-buzz-31540-1381844535-8.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr05/15/9/anigif_enhanced-buzz-26390-1381844163-18.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/10/anigif_enhanced-buzz-1376-1381846217-0.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr03/15/9/anigif_enhanced-buzz-3391-1381844336-26.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/10/anigif_enhanced-buzz-29111-1381845968-0.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr03/15/9/anigif_enhanced-buzz-3409-1381844582-13.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr02/15/9/anigif_enhanced-buzz-19667-1381844937-10.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr05/15/9/anigif_enhanced-buzz-26358-1381845043-13.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/9/anigif_enhanced-buzz-18774-1381844645-6.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr06/15/9/anigif_enhanced-buzz-25158-1381844793-0.gif",
-    "http://ak-hdl.buzzfed.com/static/2013-10/enhanced/webdr03/15/10/anigif_enhanced-buzz-11980-1381846269-1.gif"
-]
+@app.route("/")
+def home():
+    return render_template('index.html')
 
-@app.route('/')
-def index():
-    url = random.choice(images)
-    return render_template('index.html', url=url)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+@app.route("/send-email", methods=['POST'])
+def send_email():
+    smtp_server = request.form.get('smtp_server')
+    smtp_port = request.form.get('smtp_port')
+    sender_email = request.form.get('sender_email')
+    sender_password = request.form.get('sender_password')
+    subject = request.form.get('subject')
+    message = request.form.get('message')
+    recipients = request.form.get('recipients')
+    file = request.files.get('attachment')
+
+    recipients = recipients.split(',')
+
+    try:
+        smtp_port = int(smtp_port)
+    except ValueError:
+        return 'SMTP port must be a number'
+
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['Subject'] = subject
+        msg['To'] = ', '.join(recipients)
+
+        msg.attach(MIMEText(message, 'html'))
+
+        if file:
+            attachment = MIMEBase('application', 'octet-stream')
+            attachment.set_payload(file.read())
+            encoders.encode_base64(attachment)
+            attachment.add_header('Content-Disposition', f'attachment; filename={file.filename}')
+            msg.attach(attachment)
+
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+
+        server.login(sender_email, sender_password)
+
+        server.send_message(msg)
+        server.quit()
+
+        return 'Email sent successfully!'
+    except Exception as e:
+        return f'Error sending email: {str(e)}'
+
+
+if __name__ == '__main__':
+    app.run(debug=True) 
