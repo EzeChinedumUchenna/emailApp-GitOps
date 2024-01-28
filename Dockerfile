@@ -20,7 +20,12 @@
 
 
 
-FROM python:3.8-slim
+FROM python:3.8
+
+# Install python and pip
+RUN apk add --update py2-pip
+RUN pip install --upgrade Flask
+RUN pip install --upgrade Jinja2
   
 # Set the working directory in the container
 WORKDIR /app
@@ -33,9 +38,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
-
-# Define environment variable
-ENV NAME World
 
 # Run app.py when the container launches
 CMD ["python", "app.py"]
