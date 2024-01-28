@@ -21,11 +21,6 @@
 
 
 FROM python:3.8
-
-# Install python and pip
-
-RUN pip install --upgrade Flask
-RUN pip install --upgrade Jinja2
   
 # Set the working directory in the container
 WORKDIR /app
