@@ -190,7 +190,10 @@ $ kubectl get nodes
      $ kubectl config get-contexts
 
 12 ) Add above EKS cluster to ArgoCD with below command
-     $ argocd cluster add i-08b9d0ff0409f48e7@virtualtechbox-cluster.ap-south-1.eksctl.io --name virtualtechbox-eks-cluster
+     $ argocd cluster add nedumAKS --name virtualtechbox-nedumAks-cluster
+     
+     check using below
+     $ argocd cluster list
 
 13 ) $ kubectl get svc
 ============================================================= Cleanup =============================================================
