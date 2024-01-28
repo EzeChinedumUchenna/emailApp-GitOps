@@ -181,7 +181,7 @@ $ kubectl get nodes
 
 ## Add EKS Cluster to ArgoCD
 9 ) login to ArgoCD from CLI
-    $ argocd login a2255bb2bb33f438d9addf8840d294c5-785887595.ap-south-1.elb.amazonaws.com --username admin
+    $ argocd login <load balancer IP> --username admin
 
 10 ) 
      $ argocd cluster list
