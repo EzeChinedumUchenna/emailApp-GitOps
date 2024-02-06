@@ -109,7 +109,7 @@ pipeline {
             steps {
                     script {
                        // sh "curl -v -k --user userman:${JEKINS_API} -X POST -H 'cache-control: no cache' -H token=TOKEN_NAME'
-                        sh "curl -v -k --user chinedum:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' '20.121.45.30:8080/job/emialApp-CD-Job/buildWithParameters?token=email_app_token'"
+                        sh "curl -v -k --user chinedum:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'BUILD_NUMBER=${BUILD_NUMBER}' '20.121.45.30:8080/job/emialApp-CD-Job/buildWithParameters?token=email_app_token'"
                     }
             }
    }     
