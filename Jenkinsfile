@@ -10,7 +10,7 @@ pipeline {
         MAX_ALLOWED_BUGS = 1
         JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
        // email_app_token =  credentials("email_app_token")
-        email_app_token = 5b1fa8a7a697d8f8eee67fce6b30a4e0
+        email_app_token = "5b1fa8a7a697d8f8eee67fce6b30a4e0"
     }
  
     stages {
