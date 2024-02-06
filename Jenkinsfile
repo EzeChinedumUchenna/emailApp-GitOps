@@ -8,7 +8,7 @@ pipeline {
         SONARQUBE_TOKEN = credentials('OpeEmailAppCredential')
         SONARSCANNER_HOME = tool 'sonarqube-scanner' // Tool name configured in Jenkins Global Tool Configuration
         MAX_ALLOWED_BUGS = 1
-        JENKINS_API = credentials("JENKINS_API")
+        JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
     }
  
     stages {
@@ -108,7 +108,7 @@ pipeline {
             steps {
                     script {
                        // sh "curl -v -k --user userman:${JEKINS_API} -X POST -H 'cache-control: no cache' -H token=TOKEN_NAME'
-                        sh "curl -v -k --user chinedum:${JENKINS_API} -X POST -H 'cache-control: no cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' '20.121.45.30:8080/job/emialApp-CD-Job/buildWithParameters?token=email_token'"
+                        sh "curl -v -k --user chinedum:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' '20.121.45.30:8080/job/emialApp-CD-Job/buildWithParameters?token=email_token'"
                     }
             }
    }     
