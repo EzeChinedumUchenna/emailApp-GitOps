@@ -147,7 +147,7 @@ pipeline {
                         sh "ls -al"
                         sh "ls -al ./emailApp"
                         sh "cat ./emailApp/deployment.yaml"
-                        sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' ./emailApp/deployment.yaml"
+                        sh "sed -i 's/replaceTag/${BUILD_NUMBER}/g' ./emailApp/deployment.yaml"
                         sh "cat ./emailApp/deployment.yaml"
                         sh 'git add ./emailApp/deployment.yaml'
                         sh 'git commit -m "updated deployment.yaml file"'
