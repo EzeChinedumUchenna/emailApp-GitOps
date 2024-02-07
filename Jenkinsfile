@@ -141,6 +141,7 @@ pipeline {
                         def encodedPassword = URLEncoder.encode(PASS, "UTF-8")
 
                         // Set the Git remote URL with the encoded password
+                        sh "git remote -v | grep origin || git remote add origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "git remote set-url origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "cat deployment.yaml"
                         sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' deployment.yaml"
