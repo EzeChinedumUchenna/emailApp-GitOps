@@ -146,10 +146,10 @@ pipeline {
                         sh "git remote set-url origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "ls -al"
                         sh "ls -al ./emailApp"
-                        sh "cat deployment.yaml"
-                        sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' deployment.yaml"
-                        sh "cat ./deployment.yaml"
-                        sh 'git add deployment.yaml'
+                        sh "cat ./emailApp/deployment.yaml"
+                        sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' ./emailApp/deployment.yaml"
+                        sh "cat ./emailApp/deployment.yaml"
+                        sh 'git add ./emailApp/deployment.yaml'
                         sh 'git commit -m "updated deployment.yaml file"'
                         sh 'git push origin HEAD:refs/heads/main' //here I want to push to main branch. Selete any branch you want to push to Eg sh 'git push origin HEAD:refs/heads/bug-fix'
                 }
