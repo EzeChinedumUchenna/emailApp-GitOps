@@ -144,6 +144,7 @@ pipeline {
                         // Set the Git remote URL with the encoded password
                         sh "git remote -v | grep origin || git remote add origin https://${USER}:${PASS}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "git remote set-url origin https://${USER}:${PASS}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
+                        sh "git pull origin HEAD:refs/heads/main"
                         sh "ls -al"
                         sh "ls -al ./emailApp"
                         sh "cat ./emailApp/deployment.yaml"
