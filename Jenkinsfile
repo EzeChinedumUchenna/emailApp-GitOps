@@ -106,13 +106,49 @@ pipeline {
                     }
             }
    }
-   stage('Trigger CD pipeline') {
+
+
+        
+  /** stage('Trigger CD pipeline') {
             steps {
                     script {
                        // sh "curl -v -k --user userman:${JEKINS_API} -X POST -H 'cache-control: no cache' -H token=TOKEN_NAME'
                         sh "curl -v -k --user chinedum:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'BUILD_NUMBER=${BUILD_NUMBER}' '20.121.45.30:8080/job/emialApp-CD-Job/buildWithParameters?token=email_app_token'"
                     }
             }
-   }     
-}
+   }  
+
+} **/
+     stage('Trigger CD pipeline') {
+            steps {
+                    script {
+                      
+                       withCredentials([usernamePassword(credentialsId: 'github_Credential', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    // First we are going to attach a metadata to our commit. Like email and username, else Jenkins will complain. This is very important and a must-have at first commit but can be remove aftr that.
+                        sh 'git init .'
+                        sh 'git config user.email "nedum_jenkins@gmail.com"' 
+                        sh 'git config user.name "jenkins"'
+                    // Note can set the above globally for all the project by adding '--global'
+                    // sh 'git config --global user.email "nedum_jenkins@gmail.com"' 
+                    // sh 'git config --global user.name "nedum_jenkins"' 
+                    // we want git to print out the following information
+                        sh 'git status'
+                        sh 'git branch'
+                        sh 'git config --list'
+
+                    // Because my Github Password contain special character @, I will need to encode it else it wont work with Jenkins.
+                        def encodedPassword = URLEncoder.encode(PASS, "UTF-8")
+
+                        // Set the Git remote URL with the encoded password
+                        sh "git remote set-url origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
+                        sh "cat deployment.yaml"
+                        sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' deployment.yaml"
+                        sh "cat deployment.yaml"
+                        sh 'git add deployment.yaml'
+                        sh 'git commit -m "updated deployment.yaml file"'
+                        sh 'git push origin HEAD:refs/heads/main' //here I want to push to main branch. Selete any branch you want to push to Eg sh 'git push origin HEAD:refs/heads/bug-fix'
+                }
+                    }
+            }
+   }    
 }
