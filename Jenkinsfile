@@ -143,11 +143,11 @@ pipeline {
                         // Set the Git remote URL with the encoded password
                         sh "git remote -v | grep origin || git remote add origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "git remote set-url origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
-                        sh "cat deployment.yaml"
-                        sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' deployment.yaml"
                         sh "ls -al"
                         sh "ls -al ./"
-                        sh "cat deployment.yaml"
+                        sh "cat ./deployment.yaml"
+                        sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' deployment.yaml"
+                        sh "cat ./deployment.yaml"
                         sh 'git add deployment.yaml'
                         sh 'git commit -m "updated deployment.yaml file"'
                         sh 'git push origin HEAD:refs/heads/main' //here I want to push to main branch. Selete any branch you want to push to Eg sh 'git push origin HEAD:refs/heads/bug-fix'
