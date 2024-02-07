@@ -139,11 +139,11 @@ pipeline {
                         sh 'git config --list'
 
                     // Because my Github Password contain special character @, I will need to encode it else it wont work with Jenkins.
-                        def encodedPassword = URLEncoder.encode(PASS, "UTF-8")
+                        //def encodedPassword = URLEncoder.encode(PASS, "UTF-8")
 
                         // Set the Git remote URL with the encoded password
-                        sh "git remote -v | grep origin || git remote add origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
-                        sh "git remote set-url origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
+                        sh "git remote -v | grep origin || git remote add origin https://${USER}:${PASS}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "ls -al"
                         sh "ls -al ./emailApp"
                         sh "cat ./emailApp/deployment.yaml"
