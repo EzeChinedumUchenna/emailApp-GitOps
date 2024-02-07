@@ -126,6 +126,7 @@ pipeline {
                       
                        withCredentials([usernamePassword(credentialsId: 'github_Credential', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     // First we are going to attach a metadata to our commit. Like email and username, else Jenkins will complain. This is very important and a must-have at first commit but can be remove aftr that.
+                        sh 'cd emailApp'
                         sh 'git init .'
                         sh 'git config user.email "nedum_jenkins@gmail.com"' 
                         sh 'git config user.name "jenkins"'
@@ -144,8 +145,8 @@ pipeline {
                         sh "git remote -v | grep origin || git remote add origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "git remote set-url origin https://${USER}:${encodedPassword}@github.com/EzeChinedumUchenna/emailApp-GitOps.git"
                         sh "ls -al"
-                        sh "ls -al ./"
-                        sh "cat ./deployment.yaml"
+                        sh "ls -al ./emailApp"
+                        sh "cat deployment.yaml"
                         sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${BUILD_NUMBER}/g' deployment.yaml"
                         sh "cat ./deployment.yaml"
                         sh 'git add deployment.yaml'
