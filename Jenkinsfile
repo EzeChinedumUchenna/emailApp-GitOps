@@ -127,7 +127,7 @@ pipeline {
                        withCredentials([usernamePassword(credentialsId: 'github_Credential', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     // First we are going to attach a metadata to our commit. Like email and username, else Jenkins will complain. This is very important and a must-have at first commit but can be remove aftr that.
                         //sh 'cd emailApp'
-                        //sh 'git init .'
+                        sh 'git init .'
                         sh 'git config user.email "nedum_jenkins@gmail.com"' 
                         sh 'git config user.name "jenkins"'
                     // Note can set the above globally for all the project by adding '--global'
