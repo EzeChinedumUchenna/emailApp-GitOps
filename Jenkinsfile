@@ -148,7 +148,7 @@ pipeline {
                         sh "cat ./emailApp/deployment.yaml"
                         sh "sed -i 's/replaceTag/${BUILD_NUMBER}/g' ./emailApp/deployment.yaml"
                         sh "cat ./emailApp/deployment.yaml"
-                        sh 'git add emailApp/deployment.yaml 
+                        sh 'git add emailApp/deployment.yaml'
                         sh 'git commit -m "updated deployment.yaml file"'
                         //sh 'git push origin HEAD:refs/heads/main' //here I want to push to main branch. Selete any branch you want to push to Eg sh 'git push origin HEAD:refs/heads/bug-fix'
                         sh 'git push HEAD:main'
