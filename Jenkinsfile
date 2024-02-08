@@ -127,6 +127,7 @@ pipeline {
                        withCredentials([usernamePassword(credentialsId: 'github_Credential', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     // First we are going to attach a metadata to our commit. Like email and username, else Jenkins will complain. This is very important and a must-have at first commit but can be remove aftr that.
                         //sh 'cd emailApp'
+                        dir('emailApp') 
                         sh 'git init .'
                         sh 'git config user.email "nedum_jenkins@gmail.com"' 
                         sh 'git config user.name "jenkins"'
@@ -144,11 +145,10 @@ pipeline {
                         sh "git remote set-url origin https://${USER}:${PASS}@github.com/EzeChinedumUchenna/emailApp-GitOps "
                         //sh "git pull origin HEAD:refs/heads/main emailApp-GitOps"
                         sh "ls -al"
-                        sh "ls -al ./emailApp"
-                        sh "cat ./emailApp/deployment.yaml"
-                        sh "sed -i 's/replaceTag/${BUILD_NUMBER}/g' ./emailApp/deployment.yaml"
-                        sh "cat ./emailApp/deployment.yaml"
-                        sh 'git add emailApp/'
+                        sh "cat deployment.yaml"
+                        sh "sed -i 's/replaceTag/${BUILD_NUMBER}/g' deployment.yaml"
+                        sh "cat deployment.yaml"
+                        sh 'git add deployment.yaml'
                         sh 'git commit -m "updated deployment.yaml file"'
                         sh 'git push origin HEAD:refs/heads/main' //here I want to push to main branch. Selete any branch you want to push to Eg sh 'git push origin HEAD:refs/heads/bug-fix'
                         //sh 'git push HEAD:main'
