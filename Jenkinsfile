@@ -146,6 +146,7 @@ pipeline {
                         //sh 'git config pull.rebase true'
                         //sh "git pull origin HEAD:refs/heads/main emailApp-GitOps"
                         sh 'git pull origin HEAD:refs/heads/main'
+                        sh 'git config pull.rebase true'
                         sh "ls -al"
                         sh "cat deployment.yaml"
                         sh "sed -i 's/replaceTag/${BUILD_NUMBER}/g' deployment.yaml"
