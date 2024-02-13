@@ -153,7 +153,7 @@ pipeline {
                         sh 'git add deployment.yaml'
                         sh 'git add service.yaml'
                         sh 'git commit -m "updated deployment.yaml file"'
-                        sh 'git push origin HEAD:refs/heads/main' //here I want to push to main branch. Selete any branch you want to push to Eg sh 'git push origin HEAD:refs/heads/bug-fix'
+                        sh 'git push origin HEAD:refs/heads/main deployment.yaml service.yaml' //here I want to push to main branch. Selete any branch you want to push to Eg sh 'git push origin HEAD:refs/heads/bug-fix'
                         //sh 'git push HEAD:main'
                        }
                     }
