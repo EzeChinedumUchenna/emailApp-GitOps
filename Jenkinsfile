@@ -154,8 +154,9 @@ pipeline {
                         sh 'git fetch origin HEAD:refs/heads/main'
                         sh 'git merge origin/main main'
                         //sh "sed -i 's/nedumpythonapp:*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
-                        sh "sed -i 's/nedumpythonapp*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
-                      
+                        //sh "sed -i 's/nedumpythonapp*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
+                        sh "sed -i 's/nedumpythonapp.*/nedumpythonapp:\${BUILD_NUMBER}/g' deployment.yaml"
+
                         sh "cat deployment.yaml"
                         //sh 'git add deployment.yaml'
                         //sh 'git add service.yaml'
