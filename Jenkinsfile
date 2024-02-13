@@ -146,9 +146,10 @@ pipeline {
                         //sh 'git config pull.rebase true'
                         //sh "git config pull.rebase true"
                         //sh "git pull origin HEAD:refs/heads/main emailApp-GitOps"
-                        //sh 'git pull origin HEAD:refs/heads/main'
+                       
                         sh "ls -al"
                         sh "cat deployment.yaml"
+                        sh 'git pull origin HEAD:refs/heads/main'
                         //sh "sed -i 's/nedumpythonapp:*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
                         sh "sed -i 's/nedumpythonapp:*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
                       
