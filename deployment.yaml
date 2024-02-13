@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: email-app
-          image: 'nedumacr.azurecr.io/nedumpythonapp:167:165:164163160'
+          image: 'nedumacr.azurecr.io/nedumpythonapp:${BUILD_NUMBER}
           #image: 'ashfaque9x/register-app-pipeline:1.0.0-9'
           resources:
             limits:
