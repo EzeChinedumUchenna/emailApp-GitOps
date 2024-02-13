@@ -149,7 +149,9 @@ pipeline {
                         sh 'git pull origin HEAD:refs/heads/main'
                         sh "ls -al"
                         sh "cat deployment.yaml"
-                        sh "sed -i 's/replaceTag/${BUILD_NUMBER}/g' deployment.yaml"
+                        //sh "sed -i 's/nedumpythonapp:*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
+                        sh "sed -i 's/nedumpythonapp:*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
+
                         sh "cat deployment.yaml"
                         sh 'git add deployment.yaml'
                         sh 'git add service.yaml'
