@@ -149,6 +149,7 @@ pipeline {
                        
                         sh "ls -al"
                         sh "cat deployment.yaml"
+                        sh 'git config pull.rebase false'
                         sh 'git pull origin HEAD:refs/heads/main'
                         //sh "sed -i 's/nedumpythonapp:*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
                         sh "sed -i 's/nedumpythonapp:*/nedumpythonapp:${BUILD_NUMBER}/g' deployment.yaml"
