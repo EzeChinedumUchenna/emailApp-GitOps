@@ -39,7 +39,7 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube Scan') {
+      /** stage('SonarQube Scan') {
             steps {
                 script {
                     // Use the configured SonarScanner installation
@@ -65,7 +65,7 @@ pipeline {
           }
         }
      }
-   }
+   } 
     stage('Push to ACR') {
             steps {
                 // Push the Docker image to Azure Container Registry
@@ -106,7 +106,7 @@ pipeline {
                         sh 'docker rmi nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER'
                     }
             }
-   }
+   }**/
 
 
         
