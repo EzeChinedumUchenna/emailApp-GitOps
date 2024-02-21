@@ -88,7 +88,7 @@ pipeline {
               //  }
             //}
         //}
-    }
+    } **/
     stage('Trivy Scan') {
             steps {
                     script {
@@ -106,7 +106,7 @@ pipeline {
                         sh 'docker rmi nedumacr.azurecr.io/nedumpythonapp:$BUILD_NUMBER'
                     }
             }
-   }**/
+   }
 
 
         
@@ -176,6 +176,7 @@ pipeline {
                 mail (to: 'ezechinedum504@gmail.com',
                         subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed",
                         body: "Please visit ${env.BUILD_URL} for further information."
+                        attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
                 );
                 }
             }
@@ -184,6 +185,7 @@ pipeline {
                 mail (to: 'ezechinedum504@gmail.com',
                         subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) success.",
                         body: "Please visit ${env.BUILD_URL} for further information.",
+                        attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
 
 
                   );
