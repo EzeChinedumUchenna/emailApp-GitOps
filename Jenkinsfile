@@ -175,9 +175,9 @@ pipeline {
             script {
                 mail (to: 'ezechinedum504@gmail.com',
                         subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed",
-                        body: "Please visit ${env.BUILD_URL} for further information."
+                        body: "Please visit ${env.BUILD_URL} for further information.",
                         attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
-                )
+                );
                 }
             }
          success {
@@ -188,7 +188,7 @@ pipeline {
                         attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
 
 
-                  )
+                  );
                 }
           }      
     } 
