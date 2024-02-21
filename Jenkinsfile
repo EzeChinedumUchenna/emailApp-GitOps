@@ -166,8 +166,28 @@ pipeline {
                         //sh 'git push HEAD:main'
                        }
                     }
+                }
             }
+         } 
+    }
+   post {
+        failure {
+            script {
+                mail (to: 'ezechinedum504@gmail.com',
+                        subject: "Job '${BUILD_NUMBER}' (${BUILD_NUMBER}) failed",
+                        body: "Please visit ${BUILD_NUMBER} for further information"
+                );
+                }
             }
-   }    
-}
+         success {
+             script {
+                mail (to: 'email@gmail.com',
+                        subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) success.",
+                        body: "Please visit ${env.BUILD_URL} for further information.",
+
+
+                  );
+                }
+          }      
+    } 
 }
