@@ -174,8 +174,8 @@ pipeline {
         failure {
             script {
                 mail (to: 'ezechinedum504@gmail.com',
-                        subject: "Job '${BUILD_NUMBER}' (${BUILD_NUMBER}) failed",
-                        body: "Please visit ${BUILD_NUMBER} for further information"
+                        subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed",
+                        body: "Please visit ${env.BUILD_URL} for further information."
                 );
                 }
             }
